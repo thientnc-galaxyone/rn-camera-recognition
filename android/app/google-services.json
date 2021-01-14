@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "159100163756",
+    "project_id": "rnchallenge-59c78",
+    "storage_bucket": "rnchallenge-59c78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159100163756:android:f7e4177c492292666d3109",
+        "android_client_info": {
+          "package_name": "com.rnchallenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159100163756-ug8msu8qf42v8qi214gsndiri7sgp2vf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEVJ1CXFf2vjtSyHws88E_4i8pCJ9Hn8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "159100163756-ug8msu8qf42v8qi214gsndiri7sgp2vf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

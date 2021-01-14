@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 import {observer, Observer} from 'mobx-react';
 import {StyleSheet, View, ScrollView, Image} from 'react-native';
 import {Button, Text} from 'native-base';
@@ -9,50 +9,48 @@ import {useStores, FaceData} from '@root/stores';
 
 const DataList = () => {
   const {dataStore} = useStores();
-  return (
-    <Observer>
-      {() => {
-        return dataStore.registeredFaces.map((data: FaceData) => {
-          return (
-            <React.Fragment key={data.id}>
-              <View style={{height: 48, flexDirection: 'row'}}>
-                <View
-                  style={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: 24,
-                    borderWidth: 1,
-                    borderColor: 'grey',
-                  }}>
-                  <Image
-                    style={{flex: 1, borderRadius: 24}}
-                    source={{uri: data.uri}}
-                    resizeMode="contain"
-                  />
-                </View>
-                <View style={{marginLeft: 8}}>
-                  <Text>{data.id}</Text>
-                  <Text>{data.name}</Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  height: 1,
-                  borderColor: 'grey',
-                  borderWidth: 1,
-                  marginVertical: 8,
-                }}
+  const ListFace = () => {
+    return dataStore.registeredFaces.map((data: FaceData) => {
+      return (
+        <React.Fragment key={data.id}>
+          <View style={{height: 48, flexDirection: 'row'}}>
+            <View
+              style={{
+                width: 48,
+                height: 48,
+                borderRadius: 24,
+                borderWidth: 1,
+                borderColor: 'grey',
+              }}>
+              <Image
+                style={{flex: 1, borderRadius: 48}}
+                source={{uri: data.uri}}
+                resizeMode="contain"
               />
-            </React.Fragment>
-          );
-        });
-      }}
-    </Observer>
-  );
+            </View>
+            <View style={{marginLeft: 8}}>
+              <Text>{data.id}</Text>
+              <Text>{data.name}</Text>
+            </View>
+          </View>
+          <View
+            style={{
+              height: 1,
+              borderColor: 'grey',
+              borderWidth: 1,
+              marginVertical: 8,
+            }}
+          />
+        </React.Fragment>
+      );
+    });
+  };
+  return <Observer>{ListFace}</Observer>;
 };
-const Home = () => {
-  const {navigate} = useNavigation();
 
+const Home = observer(() => {
+  const {navigate} = useNavigation();
+  const {dataStore} = useStores();
   return (
     <View style={styles.container}>
       <ScrollView style={{flex: 1}}>
@@ -66,12 +64,13 @@ const Home = () => {
       <View style={{height: 16}} />
       <Button
         style={styles.button}
+        disabled={dataStore.registeredFaces.length < 1}
         onPress={() => navigate(Routes.checkinFace.name)}>
         <Text>Check in</Text>
       </Button>
     </View>
   );
-};
+});
 
 export default Home;
 

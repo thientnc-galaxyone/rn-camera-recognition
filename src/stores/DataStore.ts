@@ -31,6 +31,14 @@ export default class DataStore {
     console.log('addFaceData', data);
     this.registeredFaces.push({...data, id: new Date().getTime()});
   }
+
+  @action
+  checkFace(uri: string): FaceData {
+    const data = this.registeredFaces[0];
+    return {
+      ...data,
+    };
+  }
 }
 
 export interface FaceData {

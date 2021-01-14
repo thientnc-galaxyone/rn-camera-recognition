@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Image, TextInput, ScrollView} from 'react-native';
 import {Button, Text} from 'native-base';
 import {useNavigation} from '@react-navigation/native';
 import {primaryColor} from '@root/colors';
 import {Routes} from '@root/navigators/Routes';
 import {Camera, KeyboardAvoidingView} from '@root/components';
-import {useStores} from '@root/stores';
+import {FaceData, useStores} from '@root/stores';
 
 type ResultViewProps = {
   uri: string;
@@ -13,24 +13,30 @@ type ResultViewProps = {
 const ResultView = ({uri}: ResultViewProps) => {
   const {navigate, goBack} = useNavigation();
   const {dataStore} = useStores();
-  const [name, setName] = useState();
+  const [result, setResult] = useState();
+  const [data, setData] = useState<FaceData>(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      navigate(Routes.checkinFace.name);
+      const _data = dataStore.checkFace(uri);
+      setData(_data);
+      setResult('Success');
+    }, 2000);
+  });
   return (
     <KeyboardAvoidingView>
       <ScrollView style={{alignSelf: 'stretch'}}>
-        <Image style={{height: 300}} source={{uri}} resizeMode="contain" />
+        <Image style={{height: 150}} source={{uri}} resizeMode="contain" />
         <View style={{flex: 1, paddingHorizontal: 32, marginTop: 32}}>
-          <TextInput
-            style={styles.input}
-            value={name}
-            placeholder="Type name"
-            autoFocus
-            selectionColor={primaryColor}
-            onChangeText={(text) => {
-              setName(text);
-            }}
-            underlineColorAndroid="transparent"
-          />
-          <Button
+          <Text style={{color: 'green'}}>{result}</Text>
+          {data && (
+            <>
+              <Text>{`ID: ${data?.id}`}</Text>
+              <Text>{`Name: ${data?.name}`}</Text>
+            </>
+          )}
+          {/* <Button
             style={styles.button}
             onPress={() => {
               navigate(Routes.loading.name);
@@ -40,7 +46,7 @@ const ResultView = ({uri}: ResultViewProps) => {
               }, 2000);
             }}>
             <Text>SAVE</Text>
-          </Button>
+          </Button> */}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -49,7 +55,9 @@ const ResultView = ({uri}: ResultViewProps) => {
 
 const CheckinFace = () => {
   const [uri, setUri] = useState('');
+  const {navigate} = useNavigation();
   const onTakePicture = (_uri: string | null) => {
+    navigate(Routes.loading.name);
     console.log(_uri);
     setUri(_uri || '');
     // dataStore.addFaceData({uri});

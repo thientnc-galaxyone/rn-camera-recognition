@@ -15,7 +15,7 @@ const PendingView = () => (
 );
 
 const useTakePicture = (callback?: (uri: string | null) => void) => {
-  const options = {quality: 0.5, base64: true};
+  const options = {quality: 0.5, base64: true, mirrorImage: true};
   const takePicture = async (camera: RNCamera) => {
     try {
       const data = await camera.takePictureAsync(options);
@@ -37,7 +37,14 @@ const Camera = ({onTakePicture}: CameraProps) => {
     <View style={styles.container}>
       <RNCamera
         style={styles.preview}
+        // faceDetectionMode={RNCamera.Constants.FaceDetection.Mode.accurate}
+        // faceDetectionLandmarks={RNCamera.Constants.FaceDetection.Landmarks.all}
+        // faceDetectionClassifications={RNCamera.Constants.FaceDetection.Classifications.all}
+        // onFacesDetected={(data) => {
+        //   console.log(data);
+        // }}
         type={RNCamera.Constants.Type.front}
+        captureAudio={false}
         androidCameraPermissionOptions={{
           title: 'Permission to use camera',
           message: 'We need your permission to use your camera',
@@ -52,7 +59,7 @@ const Camera = ({onTakePicture}: CameraProps) => {
               <TouchableOpacity
                 onPress={() => takePicture(camera)}
                 style={styles.capture}>
-                <Text style={{fontSize: 14}}> SNAP </Text>
+                <Text style={{fontSize: 14}}>SNAP</Text>
               </TouchableOpacity>
             </View>
           );
