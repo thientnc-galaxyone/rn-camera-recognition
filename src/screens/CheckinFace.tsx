@@ -13,13 +13,13 @@ type ResultViewProps = {
 const ResultView = ({uri}: ResultViewProps) => {
   const {navigate, goBack} = useNavigation();
   const {dataStore} = useStores();
-  const [result, setResult] = useState();
-  const [data, setData] = useState<FaceData>(null);
+  const [result, setResult] = useState('');
+  const [data, setData] = useState<FaceData>();
 
   useEffect(() => {
-    setTimeout(() => {
+    setTimeout(async () => {
       navigate(Routes.checkinFace.name);
-      const _data = dataStore.checkFace(uri);
+      const _data = await dataStore.checkFace(uri);
       setData(_data);
       setResult('Success');
     }, 2000);
@@ -36,17 +36,6 @@ const ResultView = ({uri}: ResultViewProps) => {
               <Text>{`Name: ${data?.name}`}</Text>
             </>
           )}
-          {/* <Button
-            style={styles.button}
-            onPress={() => {
-              navigate(Routes.loading.name);
-              setTimeout(() => {
-                dataStore.addFaceData({uri, name});
-                goBack();
-              }, 2000);
-            }}>
-            <Text>SAVE</Text>
-          </Button> */}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

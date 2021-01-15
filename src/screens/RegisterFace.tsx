@@ -23,10 +23,11 @@ const ResultView = ({uri}: ResultViewProps) => {
       return;
     }
     navigate(Routes.loading.name);
-    setTimeout(() => {
-      dataStore.addFaceData({uri, name});
-      navigate(Routes.home.name);
-    }, 2000);
+    dataStore.addFaceData({uri, name}).then(() => navigate(Routes.home.name));
+    // setTimeout(() => {
+    //   dataStore.addFaceData({uri, name});
+    //   navigate(Routes.home.name);
+    // }, 2000);
   };
   return (
     <KeyboardAvoidingView>
